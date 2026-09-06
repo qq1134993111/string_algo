@@ -33,8 +33,8 @@ Range2T join(const Range1T& r1, const Range2T& r2) {
     return result;
 }
 
-template <typename Range1T, typename Range2T>
-Range2T join_if(const Range1T& r1, const Range2T& r2, auto pred) {
+template <typename Range1T, typename Range2T, typename PredT>
+Range2T join_if(const Range1T& r1, const Range2T& r2, PredT pred) {
     Range2T result;
     
     auto it1 = r1.begin();

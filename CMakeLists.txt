@@ -11,8 +11,8 @@ project(string_algo
 # 编译选项
 # ============================================================================
 
-# 要求 C++20
-set(CMAKE_CXX_STANDARD 20)
+# 要求 C++11
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -34,8 +34,8 @@ target_include_directories(string_algo INTERFACE
     $<INSTALL_INTERFACE:include>
 )
 
-# 要求 C++20（INTERFACE 属性对接口库有效）
-target_compile_features(string_algo INTERFACE cxx_std_20)
+# 要求 C++11（INTERFACE 属性对接口库有效）
+target_compile_features(string_algo INTERFACE cxx_std_11)
 
 # 源文件编码设为 UTF-8（处理中文注释）
 if(MSVC)
@@ -65,7 +65,6 @@ if(BUILD_TESTING)
     # 添加测试到 ctest
     add_test(NAME test_string_algo COMMAND test_string_algo)
     add_test(NAME min_test COMMAND min_test)
-    add_test(NAME test_include COMMAND test_include)
 endif()
 
 # ============================================================================

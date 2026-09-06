@@ -14,12 +14,19 @@ namespace string_algo {
 namespace detail {
 
 // 检测 T 是否是 range（具有 begin() 和 end()）
+// C++11 兼容：使用 SFINAE 技巧替代 std::void_t
 template <typename T, typename = void>
 struct is_range : std::false_type {};
 
+// C++11 兼容的 void_t 实现
+template <typename...>
+struct make_void { typedef void type; };
+template <typename... Ts>
+using void_t = typename make_void<Ts...>::type;
+
 template <typename T>
-struct is_range<T, std::void_t<decltype(std::declval<T&>().begin()),
-                              decltype(std::declval<T&>().end())>> : std::true_type {};
+struct is_range<T, void_t<decltype(std::declval<T&>().begin()),
+                         decltype(std::declval<T&>().end())>> : std::true_type {};
 
 // C++17 range 迭代器类型辅助工具
 template <typename T>

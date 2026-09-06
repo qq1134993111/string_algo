@@ -3,7 +3,7 @@
 
 #include <cstddef>
 #include <iterator>
-#include <optional>
+#include <memory>
 #include <string>
 #include <utility>
 #include "config.hpp"
@@ -32,22 +32,22 @@ public:
 
     std::pair<IterT, IterT> seq_range;
     std::pair<IterT, IterT> match_range;
-    std::optional<FinderT> finder;
+    std::shared_ptr<FinderT> finder;
     RangeT range;
     bool eof;
 
     // 默认构造：创建哨兵迭代器（eof = true）
-    // 使用 std::optional 包装 finder，避免要求 FinderT 可默认构造
+    // 使用 shared_ptr 替代 std::optional，避免要求 FinderT 可默认构造（C++11 兼容）
     find_iterator()
-        : seq_range(), match_range(), finder(std::nullopt), range(), eof(true) {}
+        : seq_range(), match_range(), finder(nullptr), range(), eof(true) {}
 
     explicit find_iterator(const FinderT& f, IterT first, IterT last, const RangeT& r = RangeT())
-        : seq_range(first, last), match_range(), finder(f), range(r), eof(false) {
+        : seq_range(first, last), match_range(), finder(new FinderT(f)), range(r), eof(false) {
         advance();
     }
 
     void advance() {
-        if (eof) return;
+        if (eof || !finder) return;
         match_range = finder->operator()(seq_range);
         // 查找器在未找到匹配时返回 {seq_range.second, seq_range.second}
         // 因此检查 match_range.first 是否为序列末尾来判断是否还有匹配
@@ -58,8 +58,7 @@ public:
         }
     }
 
-    // 哨兵
-    find_iterator& operator=(const find_iterator&) { return *this; }
+    // 注意：原代码的哨兵 operator= 已移除，因为与 shared_ptr 版本冲突
 
     bool is_empty() const { return match_range.first == match_range.second; }
     const std::pair<IterT, IterT>& get() const { return match_range; }
@@ -107,16 +106,16 @@ public:
 private:
     std::pair<IterT, IterT> seq_range;
     std::pair<IterT, IterT> match_range;
-    std::optional<FinderT> finder;
+    std::shared_ptr<FinderT> finder;
     RangeT range;
     bool eof;
 
     // 默认构造：创建哨兵迭代器
     split_iterator()
-        : seq_range(), match_range(), finder(std::nullopt), range(), eof(true) {}
+        : seq_range(), match_range(), finder(nullptr), range(), eof(true) {}
 
     void advance() {
-        if (eof) return;
+        if (eof || !finder) return;
         std::pair<IterT, IterT> prev = match_range;
         match_range = finder->operator()(seq_range);
         if (match_range.first == seq_range.second) {
@@ -131,7 +130,7 @@ private:
 
 public:
     explicit split_iterator(const FinderT& f, IterT first, IterT last, const RangeT& r = RangeT())
-        : seq_range(first, last), match_range(), finder(f), range(r), eof(false) {
+        : seq_range(first, last), match_range(), finder(new FinderT(f)), range(r), eof(false) {
         match_range = finder->operator()(seq_range);
         if (match_range.first == seq_range.second) {
             match_range.first = seq_range.first;

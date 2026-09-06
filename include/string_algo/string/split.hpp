@@ -16,9 +16,9 @@ namespace string_algo {
 
 namespace detail {
 
-template <typename RangeT>
+template <typename RangeT, typename PredT>
 void split_impl(std::vector<RangeT>& result, RangeT& range, 
-                auto pred, token_compress_mode_type compress) {
+                PredT pred, token_compress_mode_type compress) {
     result.clear();
     
     auto first = range.begin();
@@ -58,9 +58,9 @@ void split_impl(std::vector<RangeT>& result, RangeT& range,
 } // namespace detail
 
 // ---- 分割算法 ----
-template <typename RangeT>
+template <typename RangeT, typename PredT>
 void split(std::vector<RangeT>& result, RangeT& range, 
-           auto pred, token_compress_mode_type compress = token_compress_off) {
+           PredT pred, token_compress_mode_type compress = token_compress_off) {
     detail::split_impl(result, range, pred, compress);
 }
 
