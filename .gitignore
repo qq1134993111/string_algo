@@ -1,0 +1,32 @@
+# Build
+build/
+cmake-build-*/
+
+# Binaries
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+*.so
+*.dylib
+*.pyc
+
+# CMake
+CMakeUserPresets.json
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.vs/
+.idea/
+*.user
+*.suo
+
+# Output
+*.txt
+!.gitkeep
