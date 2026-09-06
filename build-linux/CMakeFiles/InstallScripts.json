@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/mnt/d/DEV/string_algo/build-linux/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

@@ -274,9 +274,11 @@ namespace detail {
 template <typename Range2T>
 using iter_of_search = decltype(std::declval<Range2T&>().begin());
 
-// 根据搜索范围推导字符类型
+// 根据搜索范围推导字符类型（C++11 兼容：使用 struct 包装）
 template <typename Range2T>
-using char_of_search = typename std::iterator_traits<iter_of_search<Range2T>>::value_type;
+struct char_of_search {
+    typedef typename std::iterator_traits<iter_of_search<Range2T>>::value_type type;
+};
 
 // 相等谓词工厂
 template <typename CharT>
@@ -294,27 +296,36 @@ inline std::function<bool(CharT, CharT)> make_eq_pred(bool case_insensitive) {
 
 // first_finder 便捷构造函数
 template <typename Range2T>
-inline auto make_first_finder(const Range2T& search_range, bool case_insensitive = false) {
+inline first_finder<std::function<bool(typename detail::char_of_search<Range2T>::type, 
+                                       typename detail::char_of_search<Range2T>::type)>,
+                    detail::iter_of_search<Range2T>, Range2T>
+make_first_finder(const Range2T& search_range, bool case_insensitive = false) {
     using iter_t = detail::iter_of_search<Range2T>;
-    using char_t = detail::char_of_search<Range2T>;
+    using char_t = typename detail::char_of_search<Range2T>::type;
     return first_finder<std::function<bool(char_t, char_t)>, iter_t, Range2T>(
         search_range, detail::make_eq_pred<char_t>(case_insensitive));
 }
 
 // last_finder 便捷构造函数
 template <typename Range2T>
-inline auto make_last_finder(const Range2T& search_range, bool case_insensitive = false) {
+inline last_finder<std::function<bool(typename detail::char_of_search<Range2T>::type, 
+                                      typename detail::char_of_search<Range2T>::type)>,
+                   detail::iter_of_search<Range2T>, Range2T>
+make_last_finder(const Range2T& search_range, bool case_insensitive = false) {
     using iter_t = detail::iter_of_search<Range2T>;
-    using char_t = detail::char_of_search<Range2T>;
+    using char_t = typename detail::char_of_search<Range2T>::type;
     return last_finder<std::function<bool(char_t, char_t)>, iter_t, Range2T>(
         search_range, detail::make_eq_pred<char_t>(case_insensitive));
 }
 
 // nth_finder 便捷构造函数
 template <typename Range2T>
-inline auto make_nth_finder(std::size_t n, const Range2T& search_range, bool case_insensitive = false) {
+inline nth_finder<std::function<bool(typename detail::char_of_search<Range2T>::type, 
+                                     typename detail::char_of_search<Range2T>::type)>,
+                  detail::iter_of_search<Range2T>, Range2T>
+make_nth_finder(std::size_t n, const Range2T& search_range, bool case_insensitive = false) {
     using iter_t = detail::iter_of_search<Range2T>;
-    using char_t = detail::char_of_search<Range2T>;
+    using char_t = typename detail::char_of_search<Range2T>::type;
     return nth_finder<std::function<bool(char_t, char_t)>, iter_t, Range2T>(
         n, search_range, detail::make_eq_pred<char_t>(case_insensitive));
 }

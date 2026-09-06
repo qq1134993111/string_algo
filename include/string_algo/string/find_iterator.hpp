@@ -87,10 +87,13 @@ public:
 
 // 便捷构造函数
 template <typename FinderT, typename RangeT>
-inline auto make_find_iterator(const FinderT& finder, RangeT& range) 
-    -> find_iterator<FinderT, decltype(range.begin()), RangeT> {
-    using iter_t = decltype(range.begin());
-    return find_iterator<FinderT, iter_t, RangeT>(finder, range.begin(), range.end(), range);
+inline find_iterator<FinderT, 
+    decltype(std::declval<RangeT&>().begin()), 
+    RangeT>
+make_find_iterator(const FinderT& finder, RangeT& range) {
+    return find_iterator<FinderT, 
+        decltype(std::declval<RangeT&>().begin()), 
+        RangeT>(finder, range.begin(), range.end(), range);
 }
 
 // split_iterator 遍历匹配子串之间的间隔

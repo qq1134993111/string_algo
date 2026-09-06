@@ -133,7 +133,14 @@ bool icontains(const Range1T& r1, const Range2T& r2) {
 
 template <typename Range1T, typename Range2T>
 bool equals(const Range1T& r1, const Range2T& r2) {
-    return std::equal(r1.begin(), r1.end(), r2.begin(), r2.end());
+    auto it1 = r1.begin();
+    auto it2 = r2.begin();
+    while (it1 != r1.end() && it2 != r2.end()) {
+        if (*it1 != *it2) return false;
+        ++it1;
+        ++it2;
+    }
+    return it1 == r1.end() && it2 == r2.end();
 }
 
 template <typename Range1T, typename Range2T>

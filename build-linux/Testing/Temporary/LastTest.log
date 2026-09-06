@@ -1,0 +1,68 @@
+Start testing: Sep 06 13:08 CST
+----------------------------------------------------------
+1/2 Testing: test_string_algo
+1/2 Test: test_string_algo
+Command: "/mnt/d/DEV/string_algo/build-linux/test_string_algo"
+Directory: /mnt/d/DEV/string_algo/build-linux
+"test_string_algo" start time: Sep 06 13:08 CST
+Output:
+----------------------------------------------------------
+Running string_algo tests...
+
+Testing case conversion...
+  Case conversion tests passed.
+Testing trimming...
+  Trimming tests passed.
+Testing predicates...
+  Predicate tests passed.
+Testing find...
+  Find tests passed.
+Testing replace...
+  Replace tests passed.
+Testing split...
+  Split tests passed.
+Testing join...
+  Join tests passed.
+Testing classification...
+  Classification tests passed.
+Testing find_iterator...
+  Find iterator tests passed.
+Testing formatters...
+  Formatter tests passed.
+Testing regex...
+  Regex tests passed.
+Testing find_format...
+  Find format tests passed.
+Testing combined (Boost style)...
+  Combined tests passed.
+
+================================
+Total assertions: 240
+Passed:           240
+Failed:           0
+
+All tests passed!
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"test_string_algo" end time: Sep 06 13:08 CST
+"test_string_algo" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/2 Testing: min_test
+2/2 Test: min_test
+Command: "/mnt/d/DEV/string_algo/build-linux/min_test"
+Directory: /mnt/d/DEV/string_algo/build-linux
+"min_test" start time: Sep 06 13:08 CST
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.00 sec
+----------------------------------------------------------
+Test Passed.
+"min_test" end time: Sep 06 13:08 CST
+"min_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Sep 06 13:08 CST
