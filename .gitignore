@@ -27,6 +27,9 @@ desktop.ini
 *.user
 *.suo
 
+# WorkBuddy
+.workbuddy/
+
 # Output
 *.txt
 !.gitkeep
